@@ -5,12 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자연속 수목원 - 당신의 힐링을 디자인합니다</title>
     
-    <!-- Noto Sans KR 폰트 로드 (CDN) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS 로드 및 커스텀 설정 (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,414 +18,443 @@
                         sans: ['"Noto Sans KR"', 'sans-serif'],
                     },
                     colors: {
-                        primary: '#007BFF', // 신뢰감을 주는 블루 포인트 컬러
-                        primaryHover: '#0056b3',
+                        brandPrimary: '#007BFF', // 신뢰의 블루
+                        brandAccent: '#EF4444',  // 행동의 레드
+                        brandAccentHover: '#DC2626',
                     }
                 }
             }
         }
     </script>
     
-    <!-- Lucide 아이콘 로드 (CDN) -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* 부드러운 스크롤 이동 효과 */
-        html {
-            scroll-behavior: smooth;
+        html { scroll-behavior: smooth; }
+        .tab-content { display: none; animation: fadeIn 0.5s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        /* 탭 컨텐츠 전환 애니메이션 */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease-in-out;
+        .accordion-item.active .accordion-content {
+            max-height: 1000px; /* 충분히 큰 값 */
         }
-        .tab-content.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .accordion-item.active .chevron-icon {
+            transform: rotate(180deg);
         }
     </style>
 </head>
-<body class="font-sans text-gray-800 antialiased bg-white">
+<body class="font-sans text-gray-800 bg-white">
 
-    <!-- Header (헤더) -->
-    <header class="fixed w-full top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <!-- 로고 영역 -->
-                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <i data-lucide="leaf" class="text-primary w-8 h-8 mr-2"></i>
-                    <span class="font-bold text-2xl text-gray-900 tracking-tight">자연속 수목원</span>
-                </div>
-                <!-- 메뉴 영역 (데스크톱) -->
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#about" class="text-gray-600 hover:text-primary font-medium transition-colors">소개</a>
-                    <a href="#course" class="text-gray-600 hover:text-primary font-medium transition-colors">힐링코스</a>
-                    <a href="#services" class="text-gray-600 hover:text-primary font-medium transition-colors">서비스</a>
-                    <a href="#booking" class="text-primary font-bold hover:text-primaryHover transition-colors">예약 및 위치</a>
-                </nav>
+    <header class="fixed w-full top-0 z-50 bg-white/95 border-b border-gray-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+            <div class="flex items-center space-x-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                <i data-lucide="tree-pine" class="text-brandPrimary w-8 h-8"></i>
+                <span class="font-bold text-2xl tracking-tighter text-gray-900">자연속 수목원</span>
             </div>
+            <nav class="hidden md:flex space-x-10 text-[15px] font-medium">
+                <a href="#about" class="text-gray-500 hover:text-brandPrimary transition-colors">자연속 수목원은...</a>
+                <a href="#course" class="text-gray-500 hover:text-brandPrimary transition-colors">힐링코스</a>
+                <a href="#services" class="text-gray-500 hover:text-brandPrimary transition-colors">상세서비스</a>
+                <a href="#customer" class="text-gray-500 hover:text-brandPrimary transition-colors">고객후기</a>
+                <a href="#booking" class="text-brandAccent font-bold hover:underline">예약/위치</a>
+            </nav>
         </div>
     </header>
 
-    <!-- Hero Section (메인) -->
-    <section class="relative h-screen flex items-center justify-center pt-20">
-        <!-- 배경 이미지 및 어두운 오버레이 -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="자연 풍경" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 bg-black/40"></div>
+    <section class="relative h-screen flex items-center justify-center">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="깊은 숲" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-black/30"></div>
         </div>
-        <!-- 중앙 카피 -->
-        <div class="relative z-10 text-center px-4">
-            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg leading-tight">
+        <div class="relative z-10 text-center text-white px-4">
+            <h1 class="text-5xl md:text-7xl font-bold mb-8 drop-shadow-2xl leading-tight">
                 당신의 힐링을 디자인합니다.<br/>
-                <span class="text-blue-200">자연속 수목원</span>
+                <span class="text-blue-100">자연속 수목원</span>
             </h1>
-            <p class="text-lg md:text-xl text-gray-100 mb-8 max-w-2xl mx-auto drop-shadow-md">
-                도심 속 바쁜 일상에서 벗어나, 푸른 숲이 선사하는 완벽한 휴식을 경험해보세요.
+            <p class="text-xl md:text-2xl mb-12 font-light drop-shadow-lg opacity-90">
+                복잡한 도심에서 15분, 눈과 마음이 가장 편안해지는 거리에 있습니다.
             </p>
-            <a href="#booking" class="inline-block bg-primary text-white font-bold py-4 px-10 rounded-full hover:bg-primaryHover transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                방문 예약하기
+            <a href="#booking" class="bg-brandAccent hover:bg-brandAccentHover text-white text-lg font-bold py-5 px-12 rounded-full shadow-2xl transition-all transform hover:scale-105 inline-block">
+                지금 방문 예약하기
             </a>
         </div>
     </section>
 
-    <!-- About Us (소개) -->
-    <section id="about" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">About Us</h2>
-                <div class="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+    <section id="about" class="py-32 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-bold text-gray-900 mb-6 italic">“자연속 수목원은...”</h2>
+                <div class="w-20 h-1.5 bg-brandAccent mx-auto rounded-full"></div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-                <!-- 소개 -->
-                <div class="bg-gray-50 p-8 rounded-2xl text-center shadow-sm hover:shadow-md transition-shadow">
-                    <div class="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
-                        <i data-lucide="info" class="w-8 h-8"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="group p-10 bg-gray-50 rounded-3xl hover:bg-white hover:shadow-2xl transition-all border border-gray-100">
+                    <div class="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-brandPrimary group-hover:bg-brandPrimary group-hover:text-white transition-colors">
+                        <i data-lucide="map" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-900">수목원 소개</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        자연속 수목원은 20만 평의 넓은 대지에 조성된 도심 속 생태 오아시스입니다. 계절마다 변화하는 아름다운 자연을 통해 지역 주민들에게 온전한 휴식 공간을 제공합니다.
+                    <h3 class="text-2xl font-bold mb-5">수목원 소개</h3>
+                    <p class="text-gray-600 leading-relaxed text-[15px]">
+                        2006년 개원한 자연속 수목원은 약 20만 평의 부지에 조성된 '생태 치유형 수목원'입니다. 단순한 관람을 넘어, 도시민들이 잃어버린 '자연의 리듬'을 되찾을 수 있도록 숲과 인간을 연결하는 브릿지 역할을 수행하고 있습니다.
                     </p>
                 </div>
-                <!-- 식물 분포 -->
-                <div class="bg-gray-50 p-8 rounded-2xl text-center shadow-sm hover:shadow-md transition-shadow">
-                    <div class="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
-                        <i data-lucide="flower-2" class="w-8 h-8"></i>
+                <div class="group p-10 bg-gray-50 rounded-3xl hover:bg-white hover:shadow-2xl transition-all border border-gray-100">
+                    <div class="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-brandPrimary group-hover:bg-brandPrimary group-hover:text-white transition-colors">
+                        <i data-lucide="sprout" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-900">식물 분포</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        희귀 자생식물을 포함하여 약 3,000여 종의 다양한 식물군이 서식하고 있습니다. 테마별 정원과 생태 관찰로를 통해 다채로운 식물 생태계를 직접 체험하실 수 있습니다.
+                    <h3 class="text-2xl font-bold mb-5">식물 분포 소개</h3>
+                    <p class="text-gray-600 leading-relaxed text-[15px]">
+                        국내 자생 식물 1,200여 종을 포함하여 전 세계 3,000여 종의 다양한 식물군을 보유하고 있습니다. 특히 사계절 푸른 편백나무 숲과 멸종위기 야생식물 보전 구역을 운영하여 생태계 보존과 교육적 가치를 동시에 실현합니다.
                     </p>
                 </div>
-                <!-- 운영 철학 -->
-                <div class="bg-gray-50 p-8 rounded-2xl text-center shadow-sm hover:shadow-md transition-shadow">
-                    <div class="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
-                        <i data-lucide="heart-handshake" class="w-8 h-8"></i>
+                <div class="group p-10 bg-gray-50 rounded-3xl hover:bg-white hover:shadow-2xl transition-all border border-gray-100">
+                    <div class="bg-blue-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-8 text-brandPrimary group-hover:bg-brandPrimary group-hover:text-white transition-colors">
+                        <i data-lucide="compass" class="w-8 h-8"></i>
                     </div>
-                    <h3 class="text-xl font-bold mb-4 text-gray-900">운영 철학</h3>
-                    <p class="text-gray-600 leading-relaxed">
-                        자연과 인간의 조화로운 공존을 최우선으로 생각합니다. 자연 훼손을 최소화하는 친환경적인 관리 시스템을 도입하여 지속 가능한 녹색 환경을 지켜나갑니다.
+                    <h3 class="text-2xl font-bold mb-5">운영 철학 설명</h3>
+                    <p class="text-gray-600 leading-relaxed text-[15px]">
+                        우리의 철학은 '최소한의 개입, 최대한의 교감'입니다. 인위적인 조경보다는 자연 그대로의 성장을 존중하며, 방문객들이 시각, 청각, 촉각을 통해 자연과 깊이 소통함으로써 본연의 건강한 삶을 회복하도록 돕는 것을 목표로 합니다.
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Course (힐링코스) -->
-    <section id="course" class="py-24 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="course" class="py-32 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Healing Course</h2>
-                <div class="w-24 h-1 bg-primary mx-auto rounded-full mb-8"></div>
-                <p class="text-gray-600">몸과 마음의 피로를 풀어줄 맞춤형 힐링 코스를 선택해보세요.</p>
+                <h2 class="text-4xl font-bold mb-4">Healing Course</h2>
+                <p class="text-gray-500">각기 다른 테마로 당신의 컨디션에 맞춘 휴식을 선사합니다.</p>
             </div>
 
-            <!-- 탭 버튼 영역 -->
-            <div class="flex flex-wrap justify-center mb-12 gap-2 border-b border-gray-200">
-                <button class="tab-btn active px-8 py-4 text-lg font-medium text-primary border-b-2 border-primary focus:outline-none" data-target="tab-forest">
-                    숲속체험
-                </button>
-                <button class="tab-btn px-8 py-4 text-lg font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition-colors border-b-2 border-transparent" data-target="tab-therapy">
-                    테라피
-                </button>
-                <button class="tab-btn px-8 py-4 text-lg font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition-colors border-b-2 border-transparent" data-target="tab-sauna">
-                    사우나
-                </button>
-                <button class="tab-btn px-8 py-4 text-lg font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition-colors border-b-2 border-transparent" data-target="tab-hotspring">
-                    온천욕
-                </button>
+            <div class="flex flex-wrap justify-center gap-2 mb-10">
+                <button onclick="showTab('forest')" id="btn-forest" class="tab-btn px-8 py-3 rounded-full font-bold transition-all bg-brandAccent text-white shadow-lg">숲속체험</button>
+                <button onclick="showTab('therapy')" id="btn-therapy" class="tab-btn px-8 py-3 rounded-full font-bold transition-all bg-white text-gray-500 hover:bg-gray-100">테라피</button>
+                <button onclick="showTab('sauna')" id="btn-sauna" class="tab-btn px-8 py-3 rounded-full font-bold transition-all bg-white text-gray-500 hover:bg-gray-100">사우나</button>
+                <button onclick="showTab('hotspring')" id="btn-hotspring" class="tab-btn px-8 py-3 rounded-full font-bold transition-all bg-white text-gray-500 hover:bg-gray-100">온천욕</button>
             </div>
 
-            <!-- 탭 컨텐츠 영역 -->
-            <div class="bg-white rounded-3xl shadow-sm p-8 md:p-12 min-h-[300px]">
-                <div id="tab-forest" class="tab-content active text-center">
-                    <i data-lucide="trees" class="w-16 h-16 text-primary mx-auto mb-6"></i>
-                    <h3 class="text-2xl font-bold mb-4">피톤치드 가득한 숲속체험</h3>
-                    <p class="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        편백나무 숲길을 걸으며 맑은 공기를 마시고 자연의 소리에 귀 기울여보세요. 전문 숲 해설가와 함께하는 명상 프로그램이 준비되어 있습니다.
+            <div class="bg-white p-12 rounded-[40px] shadow-sm min-h-[400px] flex items-center text-center border border-gray-100">
+                <div id="tab-forest" class="tab-content active w-full">
+                    <h3 class="text-3xl font-bold mb-6 text-gray-900">피톤치드 삼림욕 코스 (60분)</h3>
+                    <p class="text-lg text-gray-600 leading-loose max-w-2xl mx-auto mb-10">
+                        피톤치드 방출량이 가장 높은 오전 10시와 오후 2시, 편백나무 숲길을 걷는 코스입니다. 전문 숲 해설가와 함께 호흡법을 익히고, 숲 소리를 통한 청각 명상을 통해 스트레스 호르몬 수치를 30% 이상 감소시켜 줍니다.
                     </p>
+                    <a href="#booking" class="bg-brandAccent text-white py-3 px-8 rounded-full font-bold inline-block shadow-md">이 코스 예약하기</a>
                 </div>
-                <div id="tab-therapy" class="tab-content text-center">
-                    <i data-lucide="sparkles" class="w-16 h-16 text-primary mx-auto mb-6"></i>
-                    <h3 class="text-2xl font-bold mb-4">아로마 & 사운드 테라피</h3>
-                    <p class="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        천연 허브에서 추출한 아로마 오일과 싱잉볼의 맑은 파동을 이용해 깊은 내면의 스트레스를 완화하고 신경을 안정시키는 프로그램입니다.
+                <div id="tab-therapy" class="tab-content w-full">
+                    <h3 class="text-3xl font-bold mb-6 text-gray-900">아로마 & 사운드 힐링 (90분)</h3>
+                    <p class="text-lg text-gray-600 leading-loose max-w-2xl mx-auto mb-10">
+                        수목원에서 직접 재배한 라벤더와 페퍼민트 오일을 활용한 아로마 테라피입니다. 티베트 전통 악기인 싱잉볼의 진동 파동을 몸 전체로 느끼며 깊은 숙면 상태의 이완을 유도하여 만성 피로와 불면증을 해소합니다.
                     </p>
+                    <a href="#booking" class="bg-brandAccent text-white py-3 px-8 rounded-full font-bold inline-block shadow-md">이 코스 예약하기</a>
                 </div>
-                <div id="tab-sauna" class="tab-content text-center">
-                    <i data-lucide="flame" class="w-16 h-16 text-primary mx-auto mb-6"></i>
-                    <h3 class="text-2xl font-bold mb-4">황토 찜질 사우나</h3>
-                    <p class="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        원적외선이 방출되는 친환경 황토 사우나에서 체내 노폐물을 배출하고 혈액순환을 촉진하여 가벼워진 몸을 경험하실 수 있습니다.
+                <div id="tab-sauna" class="tab-content w-full">
+                    <h3 class="text-3xl font-bold mb-6 text-gray-900">백토 & 참숯 저온 사우나</h3>
+                    <p class="text-lg text-gray-600 leading-loose max-w-2xl mx-auto mb-10">
+                        해발 500m 고지에서 채취한 백토와 전통 방식으로 구워낸 참숯을 사용한 프리미엄 사우나입니다. 45~50도의 저온에서 은은하게 체온을 높여 원활한 혈액순환을 돕고 체내 독소를 부드럽게 배출시켜 피부톤을 맑게 개선합니다.
                     </p>
+                    <a href="#booking" class="bg-brandAccent text-white py-3 px-8 rounded-full font-bold inline-block shadow-md">이 코스 예약하기</a>
                 </div>
-                <div id="tab-hotspring" class="tab-content text-center">
-                    <i data-lucide="waves" class="w-16 h-16 text-primary mx-auto mb-6"></i>
-                    <h3 class="text-2xl font-bold mb-4">미네랄 천연 온천욕</h3>
-                    <p class="text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                        지하 800m에서 끌어올린 천연 미네랄 암반수를 활용한 온천입니다. 피부 미용과 근육 피로 회복에 탁월한 효과를 자랑합니다.
+                <div id="tab-hotspring" class="tab-content w-full">
+                    <h3 class="text-3xl font-bold mb-6 text-gray-900">천연 알칼리 암반 온천욕</h3>
+                    <p class="text-lg text-gray-600 leading-loose max-w-2xl mx-auto mb-10">
+                        지하 800m 청정 암반 지층에서 끌어올린 천연 미네랄 암반수를 활용합니다. 유황 성분과 탄산수소나트륨이 풍부하여 아토피 등 피부 질환 개선에 도움을 주며, 긴장된 근육을 이완시켜 관절의 피로도를 효과적으로 낮춰줍니다.
                     </p>
+                    <a href="#booking" class="bg-brandAccent text-white py-3 px-8 rounded-full font-bold inline-block shadow-md">이 코스 예약하기</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services (서비스) -->
-    <section id="services" class="py-24 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="services" class="py-32 bg-white">
+        <div class="max-w-4xl mx-auto px-6">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Special Services</h2>
-                <div class="w-24 h-1 bg-primary mx-auto rounded-full"></div>
+                <h2 class="text-4xl font-bold mb-4">Detailed Services</h2>
+                <p class="text-gray-500">당신의 건강을 위한 자연속 수목원만의 정밀 케어 시스템</p>
             </div>
 
-            <!-- 건강검진 단계 시각화 -->
-            <div class="mb-20">
-                <h3 class="text-2xl font-bold text-center mb-12 text-gray-800">체계적인 건강검진 프로세스</h3>
-                <div class="flex flex-col md:flex-row justify-center items-center md:items-start gap-8 relative">
-                    <!-- 연결선 (데스크톱 전용) -->
-                    <div class="hidden md:block absolute top-12 left-[10%] right-[10%] h-0.5 bg-blue-100 z-0"></div>
-                    
-                    <!-- Step 1 -->
-                    <div class="relative z-10 flex flex-col items-center max-w-xs text-center group">
-                        <div class="w-24 h-24 bg-white border-4 border-blue-100 rounded-full flex items-center justify-center mb-6 group-hover:border-primary transition-colors shadow-sm">
-                            <i data-lucide="stethoscope" class="w-10 h-10 text-primary"></i>
-                        </div>
-                        <span class="text-sm text-primary font-bold mb-2 tracking-widest uppercase">Step 01</span>
-                        <h4 class="text-lg font-bold mb-2">라이프스타일 상담</h4>
-                        <p class="text-sm text-gray-600">개인의 생활 습관, 직업 환경, 병력 등을 심층 분석하여 기초 데이터를 수집합니다.</p>
-                    </div>
-
-                    <!-- Step 2 -->
-                    <div class="relative z-10 flex flex-col items-center max-w-xs text-center group">
-                        <div class="w-24 h-24 bg-white border-4 border-blue-100 rounded-full flex items-center justify-center mb-6 group-hover:border-primary transition-colors shadow-sm">
-                            <i data-lucide="eye" class="w-10 h-10 text-primary"></i>
-                        </div>
-                        <span class="text-sm text-primary font-bold mb-2 tracking-widest uppercase">Step 02</span>
-                        <h4 class="text-lg font-bold mb-2">맞춤 렌즈 추천</h4>
-                        <p class="text-sm text-gray-600">시력 측정 및 안구 상태를 반영하여, 눈의 피로를 최소화하는 최적의 맞춤 렌즈를 제안합니다.</p>
-                    </div>
-
-                    <!-- Step 3 -->
-                    <div class="relative z-10 flex flex-col items-center max-w-xs text-center group">
-                        <div class="w-24 h-24 bg-white border-4 border-blue-100 rounded-full flex items-center justify-center mb-6 group-hover:border-primary transition-colors shadow-sm">
-                            <i data-lucide="crosshair" class="w-10 h-10 text-primary"></i>
-                        </div>
-                        <span class="text-sm text-primary font-bold mb-2 tracking-widest uppercase">Step 03</span>
-                        <h4 class="text-lg font-bold mb-2">정밀 피팅</h4>
-                        <p class="text-sm text-gray-600">얼굴형과 골격에 맞춘 3D 정밀 피팅을 통해 완벽한 착용감과 시야 교정 효과를 제공합니다.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 개인별 건강 서비스 -->
-            <div class="bg-blue-50 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 shadow-sm">
-                <div class="md:w-1/2">
-                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="개인별 헬스 서비스 요가" class="rounded-2xl shadow-md w-full h-auto object-cover aspect-video">
-                </div>
-                <div class="md:w-1/2">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">개인별 맞춤 건강 서비스</h3>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        획일화된 프로그램이 아닌, 고객 한 분 한 분의 체형, 체질, 건강 상태를 분석하여 세밀한 맞춤형 헬스 서비스를 제공합니다. 전문가의 밀착 관리를 통해 차별화된 만족감과 긍정적인 신체 변화를 약속드립니다.
-                    </p>
-                    <ul class="space-y-3">
-                        <li class="flex items-center text-gray-700">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-primary mr-3 flex-shrink-0"></i>
-                            <span>인바디 기반 체성분 정밀 분석</span>
-                        </li>
-                        <li class="flex items-center text-gray-700">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-primary mr-3 flex-shrink-0"></i>
-                            <span>체형 불균형 교정 요가 및 스트레칭</span>
-                        </li>
-                        <li class="flex items-center text-gray-700">
-                            <i data-lucide="check-circle-2" class="w-5 h-5 text-primary mr-3 flex-shrink-0"></i>
-                            <span>영양사 전담 1:1 식단 처방</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Customer (고객 후기) -->
-    <section id="customer" class="py-24 bg-white border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Customer Reviews</h2>
-                <div class="w-24 h-1 bg-primary mx-auto rounded-full mb-8"></div>
-                <p class="text-gray-600">맞춤 피팅 서비스를 경험하신 고객님들의 생생한 후기입니다.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- 40대 남성 -->
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 relative">
-                    <div class="flex items-center mb-6">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="40대 남성 고객" class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-blue-100">
-                        <div>
-                            <h4 class="font-bold text-gray-900 text-lg">김** 고객님</h4>
-                            <p class="text-sm text-gray-500">40대 / 남성</p>
-                        </div>
-                    </div>
-                    <div class="flex text-yellow-400 mb-4">
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                    </div>
-                    <p class="text-gray-700 leading-relaxed italic">
-                        "하루 종일 모니터를 보는데 눈의 피로가 확 줄었습니다. 제 얼굴형과 골격에 딱 맞는 정밀 피팅 덕분에 오랜 시간 안경을 쓰고 있어도 코나 귀가 눌리지 않고 정말 편안합니다."
-                    </p>
-                </div>
-
-                <!-- 40대 여성 -->
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 relative">
-                    <div class="flex items-center mb-6">
-                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="40대 여성 고객" class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-blue-100">
-                        <div>
-                            <h4 class="font-bold text-gray-900 text-lg">이** 고객님</h4>
-                            <p class="text-sm text-gray-500">40대 / 여성</p>
-                        </div>
-                    </div>
-                    <div class="flex text-yellow-400 mb-4">
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                    </div>
-                    <p class="text-gray-700 leading-relaxed italic">
-                        "라이프스타일 상담부터 렌즈 맞춤 추천까지 이렇게 꼼꼼하게 해주는 곳은 처음입니다. 시야가 맑아지니 두통까지 사라진 기분이고, 밝은 인상을 주는 안경테 추천도 대만족입니다."
-                    </p>
-                </div>
-
-                <!-- 20대 여성 -->
-                <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 relative">
-                    <div class="flex items-center mb-6">
-                        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&q=80" alt="20대 여성 고객" class="w-16 h-16 rounded-full object-cover mr-4 border-2 border-blue-100">
-                        <div>
-                            <h4 class="font-bold text-gray-900 text-lg">박** 고객님</h4>
-                            <p class="text-sm text-gray-500">20대 / 여성</p>
-                        </div>
-                    </div>
-                    <div class="flex text-yellow-400 mb-4">
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                        <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                    </div>
-                    <p class="text-gray-700 leading-relaxed italic">
-                        "디자인만 보고 샀던 안경이 자꾸 흘러내려 불편해서 방치했었는데, 여기서 3D 정밀 피팅을 받고 나니 제 인생 안경이 되었어요! 세밀한 서비스에 깊은 감동을 받았습니다."
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Booking & Location (예약 및 위치) -->
-    <section id="booking" class="py-24 bg-gray-50 border-t border-gray-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+            <!-- Accordion Container -->
+            <div class="space-y-4">
                 
-                <!-- 예약 폼 영역 -->
-                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-gray-100">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-6">방문 예약하기</h3>
-                    <p class="text-gray-500 mb-8">원하시는 날짜와 정보를 남겨주시면, 담당자가 신속하게 연락드리겠습니다.</p>
+                <!-- Accordion Item 1: Health Check -->
+                <div class="accordion-item border border-gray-200 rounded-3xl overflow-hidden bg-white hover:border-brandPrimary transition-colors active">
+                    <button onclick="toggleAccordion(0)" class="w-full flex items-center justify-between p-8 text-left group">
+                        <div class="flex items-center space-x-6">
+                            <div class="w-14 h-14 bg-gray-50 text-gray-400 rounded-2xl flex items-center justify-center transition-all group-hover:bg-brandPrimary group-hover:text-white">
+                                <i data-lucide="eye" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold transition-colors group-hover:text-brandPrimary">시력 보호 및 눈 건강 프로세스</h4>
+                                <p class="text-sm text-gray-400 mt-1">라이프스타일 분석부터 정밀 피팅까지</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-down" class="chevron-icon text-gray-300 w-6 h-6 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-8 pb-8 pt-2">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-gray-100">
+                                <div class="bg-blue-50/50 p-6 rounded-2xl">
+                                    <span class="text-xs font-bold text-brandPrimary tracking-tighter">STEP 01</span>
+                                    <h5 class="font-bold my-2">라이프스타일 상담</h5>
+                                    <p class="text-sm text-gray-500 leading-relaxed">디지털 기기 사용량과 직업적 특성을 고려한 맞춤 진단을 실시합니다.</p>
+                                </div>
+                                <div class="bg-blue-50/50 p-6 rounded-2xl">
+                                    <span class="text-xs font-bold text-brandPrimary tracking-tighter">STEP 02</span>
+                                    <h5 class="font-bold my-2">맞춤 렌즈 추천</h5>
+                                    <p class="text-sm text-gray-500 leading-relaxed">블루라이트 차단 및 눈의 피로도를 낮추는 최적의 기능성 렌즈를 제안합니다.</p>
+                                </div>
+                                <div class="bg-blue-50/50 p-6 rounded-2xl">
+                                    <span class="text-xs font-bold text-brandPrimary tracking-tighter">STEP 03</span>
+                                    <h5 class="font-bold my-2">정밀 피팅</h5>
+                                    <p class="text-sm text-gray-500 leading-relaxed">3D 스캐닝 기술로 개개인의 골격에 맞춘 완벽한 착용감을 완성합니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 2: Personal Health -->
+                <div class="accordion-item border border-gray-200 rounded-3xl overflow-hidden bg-white hover:border-brandPrimary transition-colors">
+                    <button onclick="toggleAccordion(1)" class="w-full flex items-center justify-between p-8 text-left group">
+                        <div class="flex items-center space-x-6">
+                            <div class="w-14 h-14 bg-gray-50 text-gray-400 rounded-2xl flex items-center justify-center transition-all group-hover:bg-brandPrimary group-hover:text-white">
+                                <i data-lucide="activity" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold transition-colors group-hover:text-brandPrimary">개인별 맞춤 건강 서비스</h4>
+                                <p class="text-sm text-gray-400 mt-1">체계적인 진단과 1:1 전담 관리 시스템</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-down" class="chevron-icon text-gray-300 w-6 h-6 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-8 pb-8 pt-2">
+                            <div class="flex flex-col md:flex-row items-center gap-10 pt-6 border-t border-gray-100">
+                                <div class="md:w-1/3 rounded-2xl overflow-hidden shadow-lg">
+                                    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Health Care" class="w-full h-48 object-cover">
+                                </div>
+                                <div class="md:w-2/3">
+                                    <p class="text-gray-600 leading-relaxed mb-4">
+                                        인바디 체성분 측정과 근골격 균형 검사를 통해 현재 몸 상태를 정밀 진단합니다. 이후 수목원 전문 물리치료사가 협업하여 체형 불균형을 해소하고 기초 체력을 증진하는 맞춤형 헬스 케어를 제공합니다.
+                                    </p>
+                                    <ul class="space-y-2">
+                                        <li class="flex items-center text-sm text-gray-500"><i data-lucide="check" class="w-4 h-4 text-brandPrimary mr-2"></i> 전담 트레이너 식단 가이드</li>
+                                        <li class="flex items-center text-sm text-gray-500"><i data-lucide="check" class="w-4 h-4 text-brandPrimary mr-2"></i> 만성 통증 완화 클래스</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accordion Item 3: Posture Class -->
+                <div class="accordion-item border border-gray-200 rounded-3xl overflow-hidden bg-white hover:border-brandPrimary transition-colors">
+                    <button onclick="toggleAccordion(2)" class="w-full flex items-center justify-between p-8 text-left group">
+                        <div class="flex items-center space-x-6">
+                            <div class="w-14 h-14 bg-gray-50 text-gray-400 rounded-2xl flex items-center justify-center transition-all group-hover:bg-brandPrimary group-hover:text-white">
+                                <i data-lucide="user-check" class="w-7 h-7"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold transition-colors group-hover:text-brandPrimary">숲속 자세 교정 클래스</h4>
+                                <p class="text-sm text-gray-400 mt-1">자연 속에서 회복하는 바른 몸의 정렬</p>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-down" class="chevron-icon text-gray-300 w-6 h-6 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-8 pb-8 pt-2">
+                            <div class="pt-6 border-t border-gray-100">
+                                <p class="text-gray-600 leading-loose">
+                                    딱딱한 실내 센터가 아닌, 숲의 맑은 공기와 함께하는 야외 클래스입니다. 나무의 결을 느끼며 몸의 감각을 깨우고, 중력과 자연의 흐름에 몸을 맡겨 척추와 골반의 불균형을 스스로 인지하고 개선하는 프로그램입니다. 매주 수요일과 토요일 오전에 진행됩니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="customer" class="py-32 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl font-bold mb-4">Customer Experience</h2>
+                <p class="text-gray-500">실제 서비스를 경험하신 고객님들의 진솔한 후기입니다.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="flex items-center mb-8">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="40대 남성" class="w-16 h-16 rounded-full object-cover border-2 border-brandPrimary p-0.5 mr-4">
+                        <div>
+                            <h4 class="font-bold text-lg">김성진 님 (46세)</h4>
+                            <p class="text-xs text-gray-400">IT 기업 기획자</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-6 space-x-1">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed italic text-[15px]">
+                        "하루 10시간 이상 모니터를 보다 보니 늘 눈이 뻑뻑했습니다. 수목원의 정밀 피팅 서비스 이후 안경을 쓰고 있다는 걸 잊을 만큼 편해졌어요. 정말 추천합니다."
+                    </p>
+                </div>
+
+                <div class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="flex items-center mb-8">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="40대 여성" class="w-16 h-16 rounded-full object-cover border-2 border-brandPrimary p-0.5 mr-4">
+                        <div>
+                            <h4 class="font-bold text-lg">이은희 님 (42세)</h4>
+                            <p class="text-xs text-gray-400">초등학교 교사</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-6 space-x-1">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed italic text-[15px]">
+                        "자연 속에서 검진받는 기분이 너무 좋았어요. 저의 라이프스타일까지 꼼꼼하게 챙겨주는 상담에 감동했습니다. 인생 안경을 찾았네요!"
+                    </p>
+                </div>
+
+                <div class="bg-white p-10 rounded-3xl shadow-sm hover:shadow-xl transition-shadow border border-gray-100">
+                    <div class="flex items-center mb-8">
+                        <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="20대 여성" class="w-16 h-16 rounded-full object-cover border-2 border-brandPrimary p-0.5 mr-4">
+                        <div>
+                            <h4 class="font-bold text-lg">박민주 님 (27세)</h4>
+                            <p class="text-xs text-gray-400">프리랜서 디자이너</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-6 space-x-1">
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                    </div>
+                    <p class="text-gray-600 leading-relaxed italic text-[15px]">
+                        "디자인 작업을 할 때 색감이 중요한데, 제 시야에 딱 맞는 렌즈를 추천해주셔서 작업 능률이 올랐어요. 3D 피팅 덕분에 콧대 눌림도 없어서 너무 편해요."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="video" class="py-32 bg-white">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">안경관리</h2>
+                <div class="w-16 h-1 bg-brandAccent mx-auto rounded-full mb-6"></div>
+                <p class="text-gray-500">소중한 안경, 자연속 수목원에서 알려드리는 올바른 세척법으로 더 오래 깨끗하게 사용하세요.</p>
+            </div>
+            
+            <div class="relative rounded-[40px] overflow-hidden shadow-2xl border-8 border-gray-50">
+                <div style="padding:56.25% 0 0 0;position:relative;">
+                    <iframe 
+                        src="https://player.vimeo.com/video/1185156096?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1&amp;muted=1&amp;loop=1" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin" 
+                        style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                        title="안경_세척_방법_동영상_제작">
+                    </iframe>
+                </div>
+                <script src="https://player.vimeo.com/api/player.js"></script>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking" class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+                
+                <div class="bg-gray-50 p-12 rounded-[50px] shadow-sm border border-gray-100">
+                    <h3 class="text-3xl font-bold mb-4">방문 예약하기</h3>
+                    <p class="text-gray-500 mb-10">귀하의 컨디션에 최적화된 시간을 확보해 드립니다.</p>
                     
-                    <form id="bookingForm" class="space-y-6" onsubmit="handleFormSubmit(event)">
-                        <div>
-                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">성함</label>
-                            <input type="text" id="name" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow" placeholder="홍길동">
+                    <form onsubmit="handleSubmit(event)" class="space-y-6">
+                        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw20IQ-WYlxxm7NSrSx_RqqYjSCYYCAZ_6RFvPtWi25I55Mm7PdrfkEolI0vYgAN0yZ/exec"
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">성함</label>
+                                <input type="text" required placeholder="홍길동" class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-brandAccent focus:border-brandAccent outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">연락처</label>
+                                <input type="tel" required placeholder="010-0000-0000" class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-brandAccent focus:border-brandAccent outline-none transition-all">
+                            </div>
                         </div>
-                        <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">연락처</label>
-                            <input type="tel" id="phone" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow" placeholder="010-0000-0000">
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">좌시력 (L)</label>
+                                <input type="text" placeholder="예: 1.0" class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-brandAccent focus:border-brandAccent outline-none transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-2">우시력 (R)</label>
+                                <input type="text" placeholder="예: 1.0" class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-brandAccent focus:border-brandAccent outline-none transition-all">
+                            </div>
                         </div>
+
                         <div>
-                            <label for="date" class="block text-sm font-medium text-gray-700 mb-2">방문 희망 일자</label>
-                            <input type="date" id="date" required class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-shadow text-gray-600">
+                            <label class="block text-sm font-bold text-gray-700 mb-2">방문 희망 일자</label>
+                            <input type="date" required class="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-brandAccent focus:border-brandAccent outline-none transition-all">
                         </div>
-                        <button type="submit" class="w-full bg-primary text-white font-bold py-4 px-6 rounded-lg hover:bg-primaryHover transition-colors mt-4">
+                        <button type="submit" class="w-full bg-brandAccent hover:bg-brandAccentHover text-white font-bold py-5 rounded-2xl shadow-xl transition-all text-lg">
                             예약 신청 완료
                         </button>
                     </form>
                 </div>
 
-                <!-- 위치 및 정보 영역 -->
                 <div class="flex flex-col justify-between">
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-8">Location & Contact</h3>
-                        
-                        <div class="space-y-6 mb-10">
-                            <div class="flex items-start">
-                                <div class="bg-blue-50 p-3 rounded-full text-primary mr-4 flex-shrink-0">
-                                    <i data-lucide="map-pin" class="w-6 h-6"></i>
+                        <h3 class="text-3xl font-bold mb-10">Location & Info</h3>
+                        <div class="space-y-10">
+                            <div class="flex items-start group">
+                                <div class="bg-blue-50 p-4 rounded-2xl text-brandPrimary mr-6 transition-all group-hover:bg-brandPrimary group-hover:text-white">
+                                    <i data-lucide="map-pin" class="w-7 h-7"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 text-lg mb-1">오시는 길</h4>
-                                    <p class="text-gray-600">서울특별시 서초구 신반포로19길 36 (반포동)</p>
+                                    <h4 class="font-bold text-xl mb-1">오시는 길</h4>
+                                    <p class="text-gray-500 leading-relaxed">서울특별시 서초구 신반포로19길 36 (반포동)</p>
+                                    <p class="text-xs text-gray-400 mt-1">* 7, 9호선 고속터미널역 5번 출구 도보 10분</p>
                                 </div>
                             </div>
-                            
-                            <div class="flex items-start">
-                                <div class="bg-blue-50 p-3 rounded-full text-primary mr-4 flex-shrink-0">
-                                    <i data-lucide="phone" class="w-6 h-6"></i>
+                            <div class="flex items-start group">
+                                <div class="bg-blue-50 p-4 rounded-2xl text-brandPrimary mr-6 transition-all group-hover:bg-brandPrimary group-hover:text-white">
+                                    <i data-lucide="phone-call" class="w-7 h-7"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 text-lg mb-1">연락처</h4>
-                                    <p class="text-gray-600 text-xl font-medium text-primary">02-123-4680</p>
+                                    <h4 class="font-bold text-xl mb-1">매장 연락처</h4>
+                                    <p class="text-brandPrimary font-bold text-2xl">02-123-4680</p>
                                 </div>
                             </div>
-
-                            <div class="flex items-start">
-                                <div class="bg-blue-50 p-3 rounded-full text-primary mr-4 flex-shrink-0">
-                                    <i data-lucide="clock" class="w-6 h-6"></i>
+                            <div class="flex items-start group">
+                                <div class="bg-blue-50 p-4 rounded-2xl text-brandPrimary mr-6 transition-all group-hover:bg-brandPrimary group-hover:text-white">
+                                    <i data-lucide="clock" class="w-7 h-7"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 text-lg mb-1">운영 시간</h4>
-                                    <p class="text-gray-600">평일 오전 9:00 ~ 오후 7:00</p>
-                                    <p class="text-sm text-gray-500 mt-1">* 주말 및 공휴일은 휴관입니다.</p>
+                                    <h4 class="font-bold text-xl mb-1">운영 시간</h4>
+                                    <p class="text-gray-500 font-medium">평일 : 오전 9:00 ~ 오후 7:00</p>
+                                    <p class="text-gray-400">주말 및 공휴일 : 휴관</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- 구글맵 연동 -->
-                    <div class="w-full h-64 rounded-2xl overflow-hidden shadow-sm border border-gray-200 relative">
-                        <iframe 
-                            src="https://maps.google.com/maps?q=서울특별시%20서초구%20신반포로19길%2036&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade"
-                            title="자연속 수목원 오시는 길">
-                        </iframe>
+                    <div class="mt-12 w-full h-[250px] rounded-[30px] overflow-hidden border border-gray-100 shadow-inner grayscale hover:grayscale-0 transition-all duration-500">
+                        <iframe src="https://maps.google.com/maps?q=서울특별시%20서초구%20신반포로19길%2036&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -435,95 +462,63 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 py-8 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="flex items-center justify-center mb-4 opacity-50">
-                <i data-lucide="leaf" class="text-white w-6 h-6 mr-2"></i>
-                <span class="font-bold text-lg text-white">자연속 수목원</span>
-            </div>
-            <p class="text-gray-400 text-sm">
-                Copyright &copy; 2026 자연속 수목원. All rights reserved.
-            </p>
+    <footer class="bg-gray-900 py-12 text-center text-white/50 border-t border-white/5">
+        <div class="flex items-center justify-center space-x-2 mb-6">
+            <i data-lucide="tree-pine" class="w-5 h-5 text-brandPrimary"></i>
+            <span class="text-white font-bold tracking-widest uppercase">Nature Arboretum</span>
         </div>
+        <p class="text-sm">Copyright &copy; 2026 자연속 수목원. All rights reserved.</p>
     </footer>
 
-    <!-- 제출 완료 모달 (알림창) -->
-    <div id="successModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-2xl p-8 max-w-sm w-full mx-4 text-center transform scale-95 transition-transform duration-300 shadow-2xl">
-            <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-500">
-                <i data-lucide="check" class="w-8 h-8"></i>
+    <div id="modal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 hidden px-4">
+        <div class="bg-white rounded-[40px] p-10 max-w-sm w-full text-center">
+            <div class="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="check" class="w-10 h-10"></i>
             </div>
-            <h4 class="text-2xl font-bold text-gray-900 mb-2">예약 완료</h4>
-            <p class="text-gray-600 mb-6">예약 신청이 정상적으로 접수되었습니다.<br/>담당자가 곧 연락드리겠습니다.</p>
-            <button onclick="closeModal()" class="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-primaryHover transition-colors">
-                확인
-            </button>
+            <h4 class="text-2xl font-bold mb-4">예약 접수 완료</h4>
+            <p class="text-gray-500 mb-8 leading-relaxed">24시간 이내에 확인 전화를 드리겠습니다.</p>
+            <button onclick="closeModal()" class="w-full bg-brandAccent text-white py-4 rounded-2xl font-bold shadow-lg">확인</button>
         </div>
     </div>
 
-    <!-- 스크립트 영역 -->
     <script>
-        // 1. 아이콘 렌더링 초기화
         lucide.createIcons();
 
-        // 2. 탭 기능 제어 로직
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // 모든 버튼 스타일 초기화
-                tabBtns.forEach(b => {
-                    b.classList.remove('text-primary', 'border-primary', 'active');
-                    b.classList.add('text-gray-500', 'border-transparent');
-                });
-                
-                // 모든 컨텐츠 숨기기
-                tabContents.forEach(content => {
-                    content.classList.remove('active');
-                });
-
-                // 클릭된 버튼 스타일 적용
-                btn.classList.remove('text-gray-500', 'border-transparent');
-                btn.classList.add('text-primary', 'border-primary', 'active');
-
-                // 해당 컨텐츠 보여주기
-                const targetId = btn.getAttribute('data-target');
-                document.getElementById(targetId).classList.add('active');
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-brandAccent', 'text-white', 'shadow-lg');
+                btn.classList.add('bg-white', 'text-gray-500');
             });
-        });
 
-        // 3. 폼 제출 및 모달 제어 로직
-        const modal = document.getElementById('successModal');
-        const modalInner = modal.querySelector('div');
+            document.getElementById('tab-' + id).classList.add('active');
+            const targetBtn = document.getElementById('btn-' + id);
+            targetBtn.classList.remove('bg-white', 'text-gray-500');
+            targetBtn.classList.add('bg-brandAccent', 'text-white', 'shadow-lg');
+        }
 
-        function handleFormSubmit(event) {
-            event.preventDefault(); // 기본 제출 동작(새로고침) 방지
-            
-            // 모달 표시
-            modal.classList.remove('hidden');
-            // 부드러운 전환 효과를 위해 약간의 딜레이 후 투명도 조절
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modalInner.classList.remove('scale-95');
-                modalInner.classList.add('scale-100');
-            }, 10);
+        // Accordion Logic
+        function toggleAccordion(index) {
+            const items = document.querySelectorAll('.accordion-item');
+            const clickedItem = items[index];
+            const isActive = clickedItem.classList.contains('active');
 
-            // 폼 초기화
-            document.getElementById('bookingForm').reset();
+            // Close all others
+            items.forEach(item => item.classList.remove('active'));
+
+            // Toggle clicked
+            if (!isActive) {
+                clickedItem.classList.add('active');
+            }
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            document.getElementById('modal').classList.remove('hidden');
         }
 
         function closeModal() {
-            // 모달 숨김 애니메이션
-            modal.classList.add('opacity-0');
-            modalInner.classList.remove('scale-100');
-            modalInner.classList.add('scale-95');
-            
-            // 애니메이션 완료 후 완전히 숨김
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
+            document.getElementById('modal').classList.add('hidden');
         }
     </script>
 </body>
